@@ -62,8 +62,9 @@ class DynamicArray {
         this.lastIndex--;
         // converting following to double so it donot drom 0.5 values in case of odd
         // lengths (1,3,5,...)
-        if (this.lastIndex + 1.0 == this.arr.length / 2.0)
-            this.halve();
+        // making array half its size only when it has atleast 2 elements or more
+        if (this.lastIndex + 1.0 == this.arr.length / 2.0 && lastIndex>0)
+            this.halfArray();
     }
 
     // edit an item at given index
@@ -90,7 +91,7 @@ class DynamicArray {
         this.arr = newArr;
     }
 
-    private void halve() {
+    private void halfArray() {
         int newArr[] = new int[this.arr.length / 2];
         for (int i = 0; i <= this.lastIndex; i++)
             newArr[i] = this.arr[i];
