@@ -3,12 +3,13 @@ public class Main {
     public static void rotate(int arr[], int itr, boolean forward) {
 
         if (itr > arr.length)
+        // because when we rotate (arr.length) amount of times we get the same array we started with
             itr = itr % arr.length;
 
         int temp[] = new int[itr];
 
         if (forward) {
-
+            
             for (int i = arr.length - itr; i < arr.length; i++)
                 temp[i - arr.length + itr] = arr[i];
             for (int i = arr.length - itr - 1; i >= 0; i--) {
