@@ -3,6 +3,10 @@ class DynamicArray {
     private int arr[];
     private int lastIndex = -1;
 
+    DynamicArray() {
+        this.arr = new int[1];
+    }
+    
     DynamicArray(int size) {
         this.arr = new int[size];
     }
