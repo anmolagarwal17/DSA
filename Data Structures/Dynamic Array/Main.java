@@ -7,12 +7,30 @@ class DynamicArray {
         this.arr = new int[size];
     }
 
-    // insert an item
-    public void insert(int item) {
+    // append an item at end
+    public void append(int item) {
         if (this.lastIndex + 1 == this.arr.length)
             this.doubleSize();
         this.lastIndex++;
         this.arr[this.lastIndex] = item;
+    }
+
+    // insert an item at given index
+    public void insert(int item, int index) throws Exception {
+        if(index<0 || index>lastIndex+1)
+        {
+            throw new Exception("Invalid index! Cannot insert item at index: "+index);
+        }
+        else{
+            if (this.lastIndex + 1 == this.arr.length)
+                this.doubleSize();
+                for(int i=this.lastIndex; i>=index; i--)
+                {
+                    this.arr[i+1] = this.arr[i];
+                }
+                this.arr[index] = item;
+            this.lastIndex++;
+        }
     }
 
     // count total items
@@ -21,21 +39,17 @@ class DynamicArray {
     }
 
     // get item at given index
-    public int getItem(int index) {
+    public int getItem(int index) throws Exception {
         if (index < 0 || index > this.lastIndex) {
-            // the program should ideally throw an error here
-            System.out.println("Invalid index: " + index + " for getting item!");
-            return 0;
+            throw new Exception("Invalid index: " + index + " for getting item!");
         }
         return this.arr[index];
     }
 
     // delete item at given index
-    public void delete(int index) {
+    public void delete(int index) throws Exception {
         if (index < 0 || index > this.lastIndex) {
-            // the program should ideally throw an error here
-            System.out.println("Invalid index: " + index + " for deleting item!");
-            return;
+            throw new Exception("Invalid index: " + index + " for deleting item!");
         }
         // this.arr[i+1] will work because we are taking i<lastIndex insted of
         // i<=lastIndex
@@ -49,11 +63,9 @@ class DynamicArray {
     }
 
     // edit an item at given index
-    public void edit(int newVal, int index) {
+    public void edit(int newVal, int index) throws Exception {
         if (index < 0 || index > this.lastIndex) {
-            // the program should ideally throw an error here
-            System.out.println("Invalid index: " + index + " for editing item!");
-            return;
+            throw new Exception("Invalid index: " + index + " for editing item!");
         }
         this.arr[index] = newVal;
     }
@@ -97,24 +109,36 @@ class DynamicArray {
 }
 
 class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         // create DynamicArray object
         DynamicArray arr = new DynamicArray(5);
 
-        // inserting values
-        arr.insert(5);
-        arr.insert(10);
-        arr.insert(15);
-        arr.insert(55);
-        arr.insert(25);
-        arr.insert(30);
-        arr.insert(35);
-        arr.insert(40);
-        arr.insert(45);
-        arr.insert(50);
+        // appending values
+        arr.append(5);
+        arr.append(10);
+        arr.append(15);
+        arr.append(55);
+        arr.append(25);
+        arr.append(30);
+        arr.append(35);
+        arr.append(40);
+        arr.append(45);
+        arr.append(50);
         arr.showArray();
-
+        
+        arr.insert(100, 0);
+        arr.showArray();
+        arr.insert(200, 11);
+        arr.showArray();
+        arr.insert(300, 5);
+        arr.showArray();
+        
+        // the next 2 insert statements throws error because we are trying to insert at an invalid position
+        // arr.insert(200, -1);
+        // arr.insert(200, 15);
+        // arr.showArray();
+        
         // edit value
         arr.edit(20, 3);
         arr.showArray();
@@ -128,12 +152,14 @@ class Main {
         arr.showArray();
         arr.delete(0);
         arr.showArray();
-        arr.delete(-1);
+        
+        // the delete statement will throw exception because invalid index is requested to be deleted
+        // arr.delete(-1);
         arr.delete(3);
         arr.delete(2);
         arr.showArray();
 
-        arr.insert(55);
+        arr.append(55);
         arr.showArray();
 
         System.out.println("55 is at index: " + arr.search(55) + "\n");
