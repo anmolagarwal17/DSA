@@ -24,3 +24,6 @@ hs_err_pid*
 
 # VS code debug configuration file
 *.json
+
+*.vs
+*.idea
