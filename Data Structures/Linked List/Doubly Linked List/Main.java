@@ -26,12 +26,12 @@ class DoublyLinkedList {
     public void insertAtStart(int val) {
         Node newNode = new Node(val);
         newNode.prev = null;
-        newNode.next = head;
+        newNode.next = this.head;
 
-        if (head != null)
-            head.prev = newNode;
+        if (this.head != null)
+            this.head.prev = newNode;
 
-        head = newNode;
+        this.head = newNode;
     }
 
     // insert item as last node
@@ -39,11 +39,11 @@ class DoublyLinkedList {
         Node newNode = new Node(val);
         newNode.next = null;
 
-        Node current = head;
+        Node current = this.head;
 
-        if (head == null) {
+        if (this.head == null) {
             newNode.prev = null;
-            head = newNode;
+            this.head = newNode;
         } else {
             while (current.next != null)
                 current = current.next;
@@ -54,19 +54,19 @@ class DoublyLinkedList {
 
     // insert item at given index
     public void insertAt(int val, int index) throws Exception {
-        if (index < 0 || (head == null && index > 0))
+        if (index < 0 || (this.head == null && index > 0))
             throw new Exception("Invalid index: " + index);
         else {
             int currIndex = 0;
-            Node current = head;
+            Node current = this.head;
             Node newNode = new Node(val);
 
             if (index == 0) {
-                newNode.next = head;
+                newNode.next = this.head;
                 newNode.prev = null;
-                if (head != null)
-                    head.prev = newNode;
-                head = newNode;
+                if (this.head != null)
+                    this.head.prev = newNode;
+                this.head = newNode;
             } else {
                 while (currIndex < index - 1) {
                     if (current == null)
@@ -93,15 +93,15 @@ class DoublyLinkedList {
 
     // delete list item at given index
     public void deleteAt(int index) throws Exception {
-        Node current = head;
+        Node current = this.head;
         int currIndex = 0;
 
-        if (index < 0 || head == null)
+        if (index < 0 || this.head == null)
             throw new Exception("Invalid index: " + index + " to delete item!");
         else if (index == 0) {
-            head = head.next;
-            if (head != null)
-                head.prev = null;
+            this.head = this.head.next;
+            if (this.head != null)
+                this.head.prev = null;
         } else {
             while (currIndex < index - 1) {
                 // if either current is null or element we want to delete is null
@@ -121,10 +121,10 @@ class DoublyLinkedList {
 
     // search list item and return index
     public int search(int val) {
-        Node current = head;
+        Node current = this.head;
         int index = 0;
 
-        if (head == null)
+        if (this.head == null)
             return -1;
         else {
             while (current.val != val) {
@@ -140,7 +140,7 @@ class DoublyLinkedList {
     // return length of list
     public int length() {
         int length = 0;
-        Node current = head;
+        Node current = this.head;
 
         while (current != null) {
             current = current.next;
@@ -152,7 +152,7 @@ class DoublyLinkedList {
 
     // view all list items
     public void showAll() {
-        Node current = head;
+        Node current = this.head;
         int index = 0;
 
         System.out.println();
