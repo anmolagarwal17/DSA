@@ -56,25 +56,70 @@ class CircularLinkedList {
             this.insertAtStart(val);
         else {
             Node newNode = new Node(val);
-            Node current = last.next;
+            Node current = this.last.next;
             int currIndex = 0;
-            while (currIndex < index - 1 && (current != last)) {
+            while (currIndex < index - 1 && (current != this.last)) {
                 current = current.next;
                 currIndex++;
             }
 
             newNode.next = current.next;
             current.next = newNode;
-            if (current == last)
-                last = newNode;
+            if (current == this.last)
+                this.last = newNode;
         }
     }
 
     // delete first item
+    public void deleteFirst() throws Exception {
+
+        if (this.last == null)
+            throw new Exception("No item to delete");
+        // when there is only one node in the list
+        else if (this.last.next == this.last)
+            this.last = null;
+        else
+            this.last.next = this.last.next.next;
+    }
 
     // delete last item
+    public void deleteLast() throws Exception {
+        if (this.last == null)
+            throw new Exception("No item to delete");
+        // when there is only one node in the list
+        else if (this.last.next == this.last)
+            this.last = null;
+        else {
+            Node current = this.last.next;
+            while (current.next != this.last)
+                current = current.next;
+            current.next = this.last.next;
+            this.last = current;
+        }
+
+    }
 
     // delete item at index
+    public void deleteAt(int index) throws Exception {
+        if (index < 0 || this.last == null)
+            throw new Exception("Invalid index: " + index);
+        else if (index == 0)
+            this.deleteFirst();
+        else {
+            Node current = this.last.next;
+            int currIndex = 0;
+
+            while (currIndex < index - 1) {
+                if (current.next == this.last)
+                    throw new Exception("Invalid index: " + index);
+                currIndex++;
+                current = current.next;
+            }
+            if(current.next == this.last)
+                this.last = current;
+            current.next = current.next.next;
+        }
+    }
 
     // view all list items
     public void showAll() {
@@ -100,9 +145,9 @@ class CircularLinkedList {
     public int length() {
         int length = 0;
 
-        if (last != null) {
+        if (this.last != null) {
             Node current = this.last.next;
-            while (current != last) {
+            while (current != this.last) {
                 length++;
                 current = current.next;
             }
@@ -112,6 +157,22 @@ class CircularLinkedList {
     }
 
     // find index of a given item
+    public int search(int val) {
+        Node current = this.last.next;
+        int index = -1;
+
+        while(current != this.last)
+        {
+            index++;
+            if(current.val == val)
+                return index;
+            current = current.next;
+        }
+        if(current.val == val)
+            return ++index;
+        
+        return -1;
+    }
 }
 
 public class Main {
@@ -165,21 +226,21 @@ public class Main {
                         cll.insertAt(val, index);
                         break;
                     case 4:
-                        // dll.deleteAt(0);
+                        cll.deleteFirst();
                         break;
                     case 5:
-                        // dll.deleteAt(dll.length() - 1);
+                        cll.deleteLast();
                         break;
                     case 6:
-                        // System.out.println("Enter a index from which you want to delete item: ");
-                        // index = sc.nextInt();
-                        // dll.deleteAt(index);
+                        System.out.println("Enter a index from which you want to delete item: ");
+                        index = sc.nextInt();
+                        cll.deleteAt(index);
                         break;
                     case 7:
-                        // System.out.println("Enter a number to find index of: ");
-                        // val = sc.nextInt();
-                        // System.out.println("Index of " + val + " in the list is: " +
-                        // dll.search(val));
+                        System.out.println("Enter a number to find index of: ");
+                        val = sc.nextInt();
+                        System.out.println("Index of " + val + " in the list is: " +
+                        cll.search(val));
                         break;
                     case 8:
                         System.out.println("Length: " + cll.length());
