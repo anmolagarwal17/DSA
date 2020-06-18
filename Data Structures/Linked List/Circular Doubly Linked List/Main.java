@@ -1,18 +1,19 @@
 import java.util.Scanner;
 
-class CircularLinkedList {
-    Node last = null;
+class CircularDoublyLinkedList {
+    Node head = null;
 
     private class Node {
         int val;
         Node next = null;
+        Node prev = null;
 
         Node(int val) {
             this.val = val;
         }
     }
 
-    CircularLinkedList() {
+    CircularDoublyLinkedList() {
     }
 
     // insert as first node
@@ -20,14 +21,20 @@ class CircularLinkedList {
         Node newNode = new Node(val);
 
         // when list is empty
-        if (this.last == null) {
-            this.last = newNode;
-            this.last.next = newNode;
+        if (this.head == null) {
+            newNode.next = newNode;
+            newNode.prev = newNode;
+            this.head = newNode;
         }
         // when list have atleast one node
         else {
-            newNode.next = this.last.next;
-            this.last.next = newNode;
+            newNode.next = this.head;
+            newNode.prev = this.head.prev;
+
+            this.head.prev.next = newNode;
+            this.head.prev = newNode;
+
+            this.head = newNode;
         }
     }
 
@@ -36,90 +43,96 @@ class CircularLinkedList {
         Node newNode = new Node(val);
 
         // when list is empty
-        if (this.last == null) {
-            this.last = newNode;
-            this.last.next = newNode;
+        if (this.head == null) {
+            newNode.next = newNode;
+            newNode.prev = newNode;
+            this.head = newNode;
         }
         // when list have atleast one node
         else {
-            newNode.next = this.last.next;
-            this.last.next = newNode;
-            this.last = newNode;
+            newNode.next = this.head;
+            newNode.prev = this.head.prev;
+
+            this.head.prev.next = newNode;
+            this.head.prev = newNode;
         }
     }
 
     // insert node at index
     public void insertAt(int val, int index) throws Exception {
-        if (index < 0 || (this.last == null && index > 0))
+        if (index < 0 || (this.head == null && index > 0))
             throw new Exception("Invalid index: " + index);
         else if (index == 0)
             this.insertAtStart(val);
         else {
             Node newNode = new Node(val);
-            Node current = this.last.next;
+            Node current = this.head;
             int currIndex = 0;
+
             while (currIndex < index - 1) {
-                if(current == this.last)
-                    throw new Exception("Invalid index: "+index);
+                if (current == this.head.prev)
+                    throw new Exception("Invalid index: " + index);
                 current = current.next;
                 currIndex++;
             }
 
+            newNode.prev = current;
             newNode.next = current.next;
+
+            current.next.prev = newNode;
             current.next = newNode;
-            if (current == this.last)
-                this.last = newNode;
         }
     }
 
     // delete first item
     public void deleteFirst() throws Exception {
 
-        if (this.last == null)
+        if (this.head == null)
             throw new Exception("No item to delete");
         // when there is only one node in the list
-        else if (this.last.next == this.last)
-            this.last = null;
-        else
-            this.last.next = this.last.next.next;
+        else if (this.head.next == this.head)
+            this.head = null;
+        else {
+            this.head.prev.next = this.head.next;
+            this.head.next.prev = this.head.prev;
+            this.head = this.head.next;
+        }
     }
 
     // delete last item
     public void deleteLast() throws Exception {
-        if (this.last == null)
+        if (this.head == null)
             throw new Exception("No item to delete");
         // when there is only one node in the list
-        else if (this.last.next == this.last)
-            this.last = null;
+        else if (this.head.next == this.head)
+            this.head = null;
         else {
-            Node current = this.last.next;
-            while (current.next != this.last)
-                current = current.next;
-            current.next = this.last.next;
-            this.last = current;
+            this.head.prev = this.head.prev.prev;
+            this.head.prev.next = this.head;
         }
 
     }
 
     // delete item at index
     public void deleteAt(int index) throws Exception {
-        if (index < 0 || this.last == null)
+        if (index < 0 || this.head == null)
             throw new Exception("Invalid index: " + index);
         else if (index == 0)
             this.deleteFirst();
+        else if (index == 1 && this.head.next == this.head)
+            throw new Exception("Invalid index: " + index);
         else {
-            Node current = this.last.next;
+            Node current = this.head;
             int currIndex = 0;
 
             while (currIndex < index - 1) {
-                if (current.next == this.last)
+                if (current.next == this.head.prev)
                     throw new Exception("Invalid index: " + index);
                 currIndex++;
                 current = current.next;
             }
-            if(current.next == this.last)
-                this.last = current;
             current.next = current.next.next;
+            current.next.prev = current;
         }
     }
 
@@ -127,13 +140,13 @@ class CircularLinkedList {
     public void showAll() {
 
         System.out.println();
-        if (this.last == null)
+        if (this.head == null)
             System.out.println("List empty!");
         else {
-            Node current = this.last.next;
+            Node current = this.head;
             int index = 0;
 
-            while (current != this.last) {
+            while (current != this.head.prev) {
                 System.out.println(index + ": " + current.val);
                 current = current.next;
                 index++;
@@ -147,9 +160,9 @@ class CircularLinkedList {
     public int length() {
         int length = 0;
 
-        if (this.last != null) {
-            Node current = this.last.next;
-            while (current != this.last) {
+        if (this.head != null) {
+            Node current = this.head;
+            while (current != this.head.prev) {
                 length++;
                 current = current.next;
             }
@@ -160,19 +173,18 @@ class CircularLinkedList {
 
     // find index of a given item
     public int search(int val) {
-        Node current = this.last.next;
+        Node current = this.head;
         int index = -1;
 
-        while(current != this.last)
-        {
+        while (current != this.head.prev) {
             index++;
-            if(current.val == val)
+            if (current.val == val)
                 return index;
             current = current.next;
         }
-        if(current.val == val)
+        if (current.val == val)
             return ++index;
-        
+
         return -1;
     }
 }
@@ -186,7 +198,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        CircularLinkedList cll = new CircularLinkedList();
+        CircularDoublyLinkedList cdll = new CircularDoublyLinkedList();
 
         while (true) {
             try {
@@ -213,42 +225,41 @@ public class Main {
                     case 1:
                         System.out.println("Enter a number to insert at start: ");
                         val = sc.nextInt();
-                        cll.insertAtStart(val);
+                        cdll.insertAtStart(val);
                         break;
                     case 2:
                         System.out.println("Enter a number to insert at end: ");
                         val = sc.nextInt();
-                        cll.insertAtEnd(val);
+                        cdll.insertAtEnd(val);
                         break;
                     case 3:
                         System.out.println("Enter a number to insert: ");
                         val = sc.nextInt();
                         System.out.println("Enter a index to insert " + val + " at: ");
                         index = sc.nextInt();
-                        cll.insertAt(val, index);
+                        cdll.insertAt(val, index);
                         break;
                     case 4:
-                        cll.deleteFirst();
+                        cdll.deleteFirst();
                         break;
                     case 5:
-                        cll.deleteLast();
+                        cdll.deleteLast();
                         break;
                     case 6:
                         System.out.println("Enter a index from which you want to delete item: ");
                         index = sc.nextInt();
-                        cll.deleteAt(index);
+                        cdll.deleteAt(index);
                         break;
                     case 7:
                         System.out.println("Enter a number to find index of: ");
                         val = sc.nextInt();
-                        System.out.println("Index of " + val + " in the list is: " +
-                        cll.search(val));
+                        System.out.println("Index of " + val + " in the list is: " + cdll.search(val));
                         break;
                     case 8:
-                        System.out.println("Length: " + cll.length());
+                        System.out.println("Length: " + cdll.length());
                         break;
                     case 9:
-                        cll.showAll();
+                        cdll.showAll();
                         break;
                     case 10:
                         System.out.println("Press enter to exit!");
