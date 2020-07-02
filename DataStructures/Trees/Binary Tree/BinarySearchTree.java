@@ -55,32 +55,91 @@ class BST {
     }
 
     // delete node
-    public void delete(int val) {
+    public void delete(int val) throws Exception {
+        if (root == null)
+            throw new Exception("BST empty!\nNo item to delete.");
+
         Node parent = null;
         Node current = root;
 
-        while (true) {
-            if (current.val == val) {
-                if (current.left == null && current.right == null) {
-                    if (parent.right == current)
-                        parent.right = null;
+        if (current.val == val) {
+            // when the root node of tree is to be deleted
+            // i.e, a node that does not have a parent node
+
+            if (current.left == null && current.right == null) {
+                // when node do not have any child node
+                root = null;
+            } else if (current.left == null) {
+                // when node have only right child node
+                root = current.right;
+            } else if (current.right == null) {
+                // when node have only left child node
+                root = current.left;
+            } else {
+                // when node have 2 child nodes
+                Node temp = current;
+                while (true) {
+                    if (temp.right != null)
+                        temp = temp.right;
                     else
-                        parent.left = null;
+                        break;
                 }
-                else if (current.left == null) {
-                    if (parent.right == current)
-                        parent.right = current.left;
-                    else
-                        parent.left = current.left;
-                } else if (current.right == null) {
-                    if (parent.right == current)
-                        parent.right = current.right;
-                    else
-                        parent.left = current.right;
+                this.delete(temp.val);
+                root.val = temp.val;
+            }
+        } else {
+            while (current != null) {
+                if (current.val == val) {
+                    // when the node we want to delete is found022
+                    if (current.left == null && current.right == null) {
+                        // when node do not have any child node
+                        if (parent.right == current)
+                            parent.right = null;
+                        else
+                            parent.left = null;
+                    } else if (current.left == null) {
+                        // when node have only right child node
+                        if (parent.right == current)
+                            parent.right = current.left;
+                        else
+                            parent.left = current.left;
+                    } else if (current.right == null) {
+                        // when node have only left child node
+                        if (parent.right == current)
+                            parent.right = current.right;
+                        else
+                            parent.left = current.right;
+                    } else {
+                        // when node have 2 child nodes
+                        Node temp = current;
+                        while (true) {
+                            if (temp.right != null)
+                                temp = temp.right;
+                            else
+                                break;
+                        }
+                        if (parent.right == current) {
+                            this.delete(temp.val);
+                            parent.right.val = temp.val;
+                        } else {
+                            this.delete(temp.val);
+                            parent.left.val = temp.val;
+                        }
+                    }
+                    break;
+                } else if (current.val > val) {
+                    parent = current;
+                    current = current.left;
                 } else {
+                    parent = current;
+                    current = current.right;
                 }
-            } 
+            }
         }
+        if (current != null)
+            System.out.println("Node deleted!");
+        else
+            System.out.println("Node with " + val + " do not exist!");
 
     }
 
@@ -138,7 +197,8 @@ class BinarySearchTree {
                 System.out.println("2. Press 2 to print BST in pre order format");
                 System.out.println("3. Press 3 to print BST in in order format");
                 System.out.println("4. Press 4 to print BST in post order format");
-                System.out.println("5. Press 5 to exit");
+                System.out.println("5. Press 5 to delete a value");
+                System.out.println("6. Press 6 to exit");
 
                 int choice = sc.nextInt();
                 int val;
@@ -159,6 +219,11 @@ class BinarySearchTree {
                         bst.postOrder(bst.root);
                         break;
                     case 5:
+                        System.out.println("Enter a value to delete");
+                        val = sc.nextInt();
+                        bst.delete(val);
+                        break;
+                    case 6:
                         System.out.println("Press enter to exit!");
                         // sc.nextLine();
                         // sc.nextLine();
