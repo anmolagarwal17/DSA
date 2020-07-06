@@ -20,7 +20,7 @@ public class Main {
                 System.out.println("1. Bubble sort");
                 System.out.println("2. Selection sort");
                 System.out.println("3. Insertion sort");
-                System.out.println("4. Bubble sort");
+                System.out.println("4. Quick sort");
                 System.out.println("5. Bubble sort");
                 System.out.println("6. Press 6 to exit");
 
@@ -39,12 +39,20 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        BubbleSort s = new BubbleSort();
-                        s.sort(arr);
+                        BubbleSort bs = new BubbleSort();
+                        bs.sort(arr);
                         break;
                     case 2:
-                        SelectionSort s = new SelectionSort();
-                        s.sort(arr);
+                        SelectionSort ss = new SelectionSort();
+                        ss.sort(arr);
+                        break;
+                    case 3:
+                        InsertionSort is = new InsertionSort();
+                        is.sort(arr);
+                        break;
+                    case 4:
+                        QuickSort qs = new QuickSort();
+                        qs.sort(arr);
                         break;
                     case 6:
                         System.out.println("Press enter to exit!");
