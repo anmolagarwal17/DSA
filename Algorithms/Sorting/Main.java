@@ -21,7 +21,7 @@ public class Main {
                 System.out.println("2. Selection sort");
                 System.out.println("3. Insertion sort");
                 System.out.println("4. Quick sort");
-                System.out.println("5. Bubble sort");
+                System.out.println("5. Merge sort");
                 System.out.println("6. Press 6 to exit");
 
                 int choice = sc.nextInt();
@@ -53,6 +53,10 @@ public class Main {
                     case 4:
                         QuickSort qs = new QuickSort();
                         qs.sort(arr);
+                        break;
+                    case 5:
+                        MergeSort ms = new MergeSort();
+                        ms.sort(arr);
                         break;
                     case 6:
                         System.out.println("Press enter to exit!");
