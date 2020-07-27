@@ -22,7 +22,8 @@ public class Main {
                 System.out.println("3. Insertion sort");
                 System.out.println("4. Quick sort");
                 System.out.println("5. Merge sort");
-                System.out.println("6. Press 6 to exit");
+                System.out.println("6. Heap sort");
+                System.out.println("7. Press 7 to exit");
 
                 int choice = sc.nextInt();
                 int val;
@@ -59,6 +60,10 @@ public class Main {
                         ms.sort(arr);
                         break;
                     case 6:
+                        HeapSort hs = new HeapSort();
+                        hs.sort(arr);
+                        break;
+                    case 7:
                         System.out.println("Press enter to exit!");
                         // sc.nextLine();
                         // sc.nextLine();
