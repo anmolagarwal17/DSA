@@ -13,64 +13,64 @@ class Heap{
 
     public void insert(int val){
 //        double heap size when no more space is left in heap
-        if(heap.length-1 == size)
+        if(this.heap.length-1 == this.size)
             doubleHeapSize();
-        size++;
-        heap[size] = val;
-        int currentPos = size;
+        this.size++;
+        this.heap[this.size] = val;
+        int currentPos = this.size;
 
-        while((currentPos-1)/2 >= 0 && heap[(currentPos-1)/2] < val){
-            heap[currentPos] = heap[(currentPos-1)/2];  // if parent value is smaller than val then insert that value in current position
+        while((currentPos-1)/2 >= 0 && this.heap[(currentPos-1)/2] < val){
+            this.heap[currentPos] = this.heap[(currentPos-1)/2];  // if parent value is smaller than val then insert that value in current position
             if(currentPos == 0) break;  // break when there is no parent to compare to
             else currentPos = (currentPos-1)/2; // update current position to compare to its parent in next iteration
         }
 
-        heap[currentPos] = val;
+        this.heap[currentPos] = val;
     }
 
     public void delete(){
 
-        if(size == -1) return;
+        if(this.size == -1) return;
 
-        heap[0] = heap[size];
-        int temp = heap[0];
+        this.heap[0] = this.heap[this.size];
+        int temp = this.heap[0];
         int currentPos = 0;
 
-        while(currentPos <= size){
-            if((currentPos * 2) + 1 <=size && heap[(currentPos*2)+1] >= heap[(currentPos*2)+2] && heap[(currentPos*2)+1] > temp) {  // first condition before AND is to check whether the psotiion to be checked is in range or not
-                heap[currentPos] = heap[(currentPos * 2) + 1];  // if left child is greater than right child and left child is also greater than current parent then put left child at current position
+        while(currentPos <= this.size){
+            if((currentPos * 2) + 1 <=this.size && this.heap[(currentPos*2)+1] >= this.heap[(currentPos*2)+2] && this.heap[(currentPos*2)+1] > temp) {  // first condition before AND is to check whether the psotiion to be checked is in range or not
+                this.heap[currentPos] = this.heap[(currentPos * 2) + 1];  // if left child is greater than right child and left child is also greater than current parent then put left child at current position
                 currentPos = (currentPos * 2) + 1;
             }
-            else if((currentPos * 2) + 2 <=size && heap[(currentPos*2)+2] > temp) {
-                heap[currentPos] = heap[(currentPos * 2) + 2];  // else if right child is greater than left AND current parent then put right child at current position
+            else if((currentPos * 2) + 2 <=this.size && this.heap[(currentPos*2)+2] > temp) {
+                this.heap[currentPos] = this.heap[(currentPos * 2) + 2];  // else if right child is greater than left AND current parent then put right child at current position
                 currentPos = (currentPos * 2) + 2;
             }
             else break; // when neither left nor right child is greater than current parent then break the loop as elements are in their right position other than on current position
         }
-        heap[currentPos] = temp;
-        size--;
-        if(size+1 == heap.length/2)
+        this.heap[currentPos] = temp;
+        this.size--;
+        if(this.size+1 == this.heap.length/2)
             halfHeapSize();
     }
 
 //    print heap function
     public void printHeap(){
-        for (int i = 0; i <= size; i++)
-            System.out.println(heap[i]+"  "+i);
+        for (int i = 0; i <= this.size; i++)
+            System.out.println(this.heap[i]+"  "+i);
     }
 
     public void printHeapVisually(){
-        int levels = (int) (Math.log(size+1) / Math.log(2));
+        int levels = (int) (Math.log(this.size+1) / Math.log(2));
 
         for (int i = 0; i <= levels; i++) {
             for (int j = (int) Math.pow(2, i) - 1; j < (int) Math.pow(2, i+1) - 1; j++) {   // gets index of current level
-                if(j>size) {
+                if(j>this.size) {
                     System.out.println("\n-------------------------------------\n");
                     return;
                 }
                 for (int k = levels; k >= i; k--)
                     System.out.print("          ");
-                System.out.print(heap[j]);
+                System.out.print(this.heap[j]);
             }
             System.out.println();
         }
@@ -80,18 +80,18 @@ class Heap{
 //    double heap size function
     private void doubleHeapSize(){
         System.out.println("double");
-        int newHeap[] = new int[(size+1)*2];
-        for (int i = 0; i <= size; i++)
-            newHeap[i] = heap[i];
-        heap = newHeap;
+        int newHeap[] = new int[(this.size+1)*2];
+        for (int i = 0; i <= this.size; i++)
+            newHeap[i] = this.heap[i];
+        this.heap = newHeap;
     }
 
 //    half heap size function
     private void halfHeapSize(){
-        int newHeap[] = new int[(heap.length+1)/2];
-        for (int i = 0; i <= size; i++)
-            newHeap[i] = heap[i];
-        heap = newHeap;
+        int newHeap[] = new int[(this.heap.length+1)/2];
+        for (int i = 0; i <= this.size; i++)
+            newHeap[i] = this.heap[i];
+        this.heap = newHeap;
     }
 
     public static void main(String[] args) {
