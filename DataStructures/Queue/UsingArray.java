@@ -2,108 +2,192 @@
 
 import java.util.Scanner;
 
-class Queue {
+// old queue implementation
+
+// class Queue {
+//     int queue[];
+//     int front = -1;
+//     int rear = -1;
+
+//     Queue() {
+//         this.queue = new int[5];
+//     }
+
+//     Queue(int size) {
+//         this.queue = new int[size];
+//     }
+
+//     public void insert(int val) {
+
+//         if (this.front == this.rear && this.rear == -1) {
+//             this.front++;
+//             this.rear++;
+//             this.queue[this.rear] = val;
+//         } else if (this.front == this.rear) {
+//             if (this.rear < this.queue.length - 1)
+//                 this.rear++;
+//             else if (this.rear == this.queue.length - 1 && this.front > 0)
+//                 this.rear = 0;
+//             else {
+//                 System.out.println("Overflow!");
+//                 return;
+//             }
+//             this.queue[this.rear] = val;
+//         } else if (this.front < this.rear) {
+//             if (this.rear < this.queue.length - 1)
+//                 this.rear++;
+//             else if (this.rear == this.queue.length-1 && this.front > 0)
+//                 this.rear = 0;
+//             else {
+//                 System.out.println("Overflow!");
+//                 return;
+//             }
+//             this.queue[this.rear] = val;
+//         }
+//         // when front > rear
+//         else {
+//             if (this.rear == this.front - 1) {
+//                 System.out.println("Overflow!");
+//                 return;
+//             }
+//             // else if(rear < front-1)
+//             this.rear++;
+//             this.queue[this.rear] = val;
+//         }
+
+//     }
+
+// public int delete() throws Exception {
+
+//     int deleted = 0;
+//     if (this.front == this.rear) {
+//         if (this.rear == -1)
+//             throw new Exception("Queue underflow!");
+//         else {
+//             deleted = this.queue[this.front];
+//             this.front = this.rear = -1;
+//         }
+//     } else if (this.front < this.rear) {
+//         deleted = this.queue[this.front];
+//         this.front++;
+//     }
+//     // when front > rear
+//     else {
+//         deleted = this.queue[this.front];
+//         if (this.front == this.queue.length - 1)
+//             this.front = 0;
+//         else
+//             this.front++;
+//     }
+//     return deleted;
+// }
+
+// public void printFront() throws Exception {
+//     if (this.front == -1)
+//         throw new Exception("Queue empty!");
+//     else
+//         System.out.println("Front: " + this.queue[this.front]);
+// }
+
+// public void printRear() throws Exception {
+//     if (this.rear == -1)
+//     throw new Exception("Queue empty!");
+//     else
+//         System.out.println("Rear: " + this.queue[this.rear]);
+// }
+
+// // this is for testing
+// public void printQueue() {
+//     System.out.println("Front: " + this.front);
+//     System.out.println("Rear: " + this.rear + "\n");
+
+//     for (int i = 0; i < this.queue.length; i++) {
+//         System.out.println(i + ": " + this.queue[i]);
+//     }
+//     System.out.println();
+// }
+// }
+
+// new better implementation
+class Queue{
+
     int queue[];
-    int front = -1;
-    int rear = -1;
+    int front, rear, size;
+    int capacity;
 
-    Queue() {
-        this.queue = new int[5];
+    Queue(){
+        this(5);
+    }
+    Queue(int capacity){
+        this.queue = new int[capacity];
+        this.front = this.size = 0;
+        this.rear = -1;
+        this.capacity = capacity;
     }
 
-    Queue(int size) {
-        this.queue = new int[size];
-    }
-
-    public void insert(int val) {
-
-        if (this.front == this.rear && this.rear == -1) {
-            this.front++;
-            this.rear++;
-            this.queue[this.rear] = val;
-        } else if (this.front == this.rear) {
-            if (this.rear < this.queue.length - 1)
-                this.rear++;
-            else if (this.rear == this.queue.length - 1 && this.front > 0)
-                this.rear = 0;
-            else {
-                System.out.println("Overflow!");
-                return;
-            }
-            this.queue[this.rear] = val;
-        } else if (this.front < this.rear) {
-            if (this.rear < this.queue.length - 1)
-                this.rear++;
-            else if (this.rear == this.queue.length-1 && this.front > 0)
-                this.rear = 0;
-            else {
-                System.out.println("Overflow!");
-                return;
-            }
-            this.queue[this.rear] = val;
-        }
-        // when front > rear
-        else {
-            if (this.rear == this.front - 1) {
-                System.out.println("Overflow!");
-                return;
-            }
-            // else if(rear < front-1)
-            this.rear++;
-            this.queue[this.rear] = val;
+//    queue is empty - T/F
+    private boolean isEmpty(){
+            return this.size == 0;
         }
 
+//    queue is full - T/F
+    private boolean isFull(){
+        return this.size == this.capacity;
     }
 
-    public int delete() throws Exception {
-
-        int deleted = 0;
-        if (this.front == this.rear) {
-            if (this.rear == -1)
-                throw new Exception("Queue underflow!");
-            else {
-                deleted = this.queue[this.front];
-                this.front = this.rear = -1;
-            }
-        } else if (this.front < this.rear) {
-            deleted = this.queue[this.front];
-            this.front++;
+//    insert in queue
+    public void insert(int val){
+        if(this.isFull()){
+            System.out.println("Queue full!");
+            return;
         }
-        // when front > rear
-        else {
-            deleted = this.queue[this.front];
-            if (this.front == this.queue.length - 1)
-                this.front = 0;
-            else
-                this.front++;
+        this.rear = (this.rear+1)%capacity;
+        this.queue[this.rear] = val;
+        this.size++;
+    }
+
+//    delete from queue
+    public int delete(){
+        if(this.isEmpty()){
+            System.out.println("Queue is empty!");
+            return Integer.MIN_VALUE;
         }
-        return deleted;
+        int val = this.queue[this.front];
+        this.front = (this.front+1)%this.capacity;
+        size--;
+
+        return val;
     }
 
-    public void printFront() throws Exception {
-        if (this.front == -1)
-            throw new Exception("Queue empty!");
-        else
-            System.out.println("Front: " + this.queue[this.front]);
-    }
-
-    public void printRear() throws Exception {
-        if (this.rear == -1)
-        throw new Exception("Queue empty!");
-        else
-            System.out.println("Rear: " + this.queue[this.rear]);
-    }
-    
-    // this is for testing
-    public void printQueue() {
-        System.out.println("Front: " + this.front);
-        System.out.println("Rear: " + this.rear + "\n");
-
-        for (int i = 0; i < this.queue.length; i++) {
-            System.out.println(i + ": " + this.queue[i]);
+//    print full queue with index - for testing
+    public void printQueue(){
+        if(this.isEmpty()) {
+            System.out.println("Queue is empty!");
+            return;
         }
-        System.out.println();
+        for (int i = front, count = 0; (i >= this.front || i <= this.rear) && count<this.size; i = i==(capacity-1)? 0 : i+1, count++) {
+            System.out.println(this.queue[i]);
+        }
     }
+
+//    return front of queue
+    public int front(){
+        if(this.isEmpty()){
+            System.out.println("Queue is empty!");
+            return Integer.MIN_VALUE;
+        }
+        return this.queue[this.front];
+    }
+
+//    return rear of queue
+    public int rear(){
+        if(this.isEmpty()){
+            System.out.println("Queue is empty!");
+            return Integer.MIN_VALUE;
+        }
+        return this.queue[this.rear];
+    }
+
 }
 
 public class UsingArray {
@@ -146,10 +230,10 @@ public class UsingArray {
                         System.out.println("Item deleted from queue is: " + queue.delete());
                         break;
                     case 3:
-                        queue.printFront();
+                        System.out.println(queue.front());
                         break;
                     case 4:
-                        queue.printRear();
+                        System.out.println(queue.rear());
                         break;
                     case 5:
                         queue.printQueue();
