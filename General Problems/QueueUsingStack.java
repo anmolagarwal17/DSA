@@ -2,21 +2,21 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 class Queue{
-    Deque<Integer> stack1 = new ArrayDeque<>();
-    Deque<Integer> stack2 = new ArrayDeque<>();
+    Deque<Integer> stackNewestOnTop = new ArrayDeque<>();
+    Deque<Integer> stackOldestOnTop = new ArrayDeque<>();
 
     public boolean isEmpty(){
-        return stack1.isEmpty() && stack2.isEmpty();
+        return this.stackNewestOnTop.isEmpty() && this.stackOldestOnTop.isEmpty();
     }
 
     private void shiftStacks(){
-        if(stack2.isEmpty())
-            while(!stack1.isEmpty())
-                stack2.push(stack1.pop());
+        if(this.stackOldestOnTop.isEmpty())
+            while(!this.stackNewestOnTop.isEmpty())
+            this.stackOldestOnTop.push(this.stackNewestOnTop.pop());
     }
 
     public void enQueue(int data){
-        stack1.push(data);
+        this.stackNewestOnTop.push(data);
     }
     public int deQueue(){
         int deleted = 0;
@@ -24,7 +24,7 @@ class Queue{
             System.out.println("Queue is empty!");
         else {
             shiftStacks();
-            deleted = stack2.pop();
+            deleted = this.stackOldestOnTop.pop();
         }
         return deleted;
     }
@@ -35,7 +35,7 @@ class Queue{
             System.out.println("Queue is empty!");
         else {
             shiftStacks();
-            data = stack2.peek();
+            data = this.stackOldestOnTop.peek();
         }
         return data;
     }
