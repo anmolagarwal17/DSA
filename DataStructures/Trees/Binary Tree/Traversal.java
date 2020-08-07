@@ -17,13 +17,18 @@ public class Traversal {
     public void BFS(Node root){
         Queue<Node> queue = new LinkedList<>();
 
+        if(root == null){
+            System.out.println("Tree empty!");
+            return;
+        }
+        
         Node current;
         queue.add(root);
         while(!queue.isEmpty()){
             current = queue.remove();
             System.out.println(current.val);
-            queue.add(current.left);
-            queue.add(current.right);
+            if(current.left != null) queue.add(current.left);
+            if(current.right != null) queue.add(current.right);
         }
     }
 
