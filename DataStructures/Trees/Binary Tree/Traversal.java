@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Traversal {
 
     class Node {
@@ -9,7 +12,25 @@ public class Traversal {
             this.val = val;
         }
     }
-    
+
+    // BFS(Breath First Search):
+    public void BFS(Node root){
+        Queue<Node> queue = new LinkedList<>();
+
+        Node current;
+        queue.add(root);
+        while(!queue.isEmpty()){
+            current = queue.remove();
+            System.out.println(current.val);
+            queue.add(current.left);
+            queue.add(current.right);
+        }
+    }
+
+
+    // three varients of DFS(Depth First Search) are:
+
+    // pre order
     // goto/print:
     // root node then,
     // left node/tree then,
@@ -22,6 +43,7 @@ public class Traversal {
         }
     }
 
+    // in order
     // goto/print:
     // left node/tree then,
     // root node then,
@@ -34,6 +56,7 @@ public class Traversal {
         }
     }
 
+    // post order
     // goto/print:
     // left node/tree then,
     // right node/tree then,
