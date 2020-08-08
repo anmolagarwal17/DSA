@@ -1,17 +1,17 @@
 import java.util.Scanner;
 
+class Node {
+    Node left = null;
+    int val;
+    Node right = null;
+
+    Node(int val) {
+        this.val = val;
+    }
+}
+
 class BST {
     Node root;
-
-    private class Node {
-        Node left = null;
-        int val;
-        Node right = null;
-
-        Node(int val) {
-            this.val = val;
-        }
-    }
 
     BST() {
     }
@@ -142,36 +142,8 @@ class BST {
             System.out.println("Node with " + val + " do not exist!");
 
     }
-
-    // pre order tree traversal
-    // root->left->right
-    public void preOrder(Node root) {
-        if (root != null) {
-            System.out.println(root.val);
-            preOrder(root.left);
-            preOrder(root.right);
-        }
-    }
-
-    // in order tree traversal
-    // left->root->right
-    public void inOrder(Node root) {
-        if (root != null) {
-            inOrder(root.left);
-            System.out.println(root.val);
-            inOrder(root.right);
-        }
-    }
-
-    // post order tree traversal
-    // left->right->root
-    public void postOrder(Node root) {
-        if (root != null) {
-            postOrder(root.left);
-            postOrder(root.right);
-            System.out.println(root.val);
-        }
-    }
+    
+    // tree traversal code in Traversal.java file
 }
 
 class BinarySearchTree {
@@ -210,13 +182,13 @@ class BinarySearchTree {
                         bst.insert(val);
                         break;
                     case 2:
-                        bst.preOrder(bst.root);
+                        Traversal.preOrder(bst.root);
                         break;
                     case 3:
-                        bst.inOrder(bst.root);
+                        Traversal.inOrder(bst.root);
                         break;
                     case 4:
-                        bst.postOrder(bst.root);
+                        Traversal.postOrder(bst.root);
                         break;
                     case 5:
                         System.out.println("Enter a value to delete");

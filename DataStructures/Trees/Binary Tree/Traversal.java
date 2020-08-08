@@ -3,18 +3,18 @@ import java.util.Queue;
 
 public class Traversal {
 
-    class Node {
-        Node left;
-        int val;
-        Node right;
+    // class Node {
+    //     Node left;
+    //     int val;
+    //     Node right;
 
-        Node(int val) {
-            this.val = val;
-        }
-    }
+    //     Node(int val) {
+    //         this.val = val;
+    //     }
+    // }
 
     // BFS(Breath First Search):
-    public void BFS(Node root){
+    public static void BFS(Node root){
         Queue<Node> queue = new LinkedList<>();
 
         if(root == null){
@@ -40,7 +40,7 @@ public class Traversal {
     // root node then,
     // left node/tree then,
     // right node/tree
-    public void preOrder(Node root) {
+    public static void preOrder(Node root) {
         if (root != null) {
             System.out.println(root.val);
             preOrder(root.left);
@@ -53,7 +53,7 @@ public class Traversal {
     // left node/tree then,
     // root node then,
     // right node/tree
-    public void inOrder(Node root) {
+    public static void inOrder(Node root) {
         if (root != null) {
             inOrder(root.left);
             System.out.println(root.val);
@@ -66,7 +66,7 @@ public class Traversal {
     // left node/tree then,
     // right node/tree then,
     // root node
-    public void postOrder(Node root) {
+    public static void postOrder(Node root) {
         if (root != null) {
             postOrder(root.left);
             postOrder(root.right);
