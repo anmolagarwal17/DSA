@@ -31,8 +31,8 @@ class BST {
             while (true) {
                 if (current.val == val)
                     throw new Exception("Cannot insert duplicate value");
-                // when root is bigger than val then
-                // insert somewhere in left subtree
+                    // when root is bigger than val then
+                    // insert somewhere in left subtree
                 else if (current.val > val) {
                     if (current.left == null) {
                         current.left = newNode;
@@ -56,93 +56,41 @@ class BST {
 
     // delete node
     public void delete(int val) throws Exception {
-        if (root == null)
-            throw new Exception("BST empty!\nNo item to delete.");
-
-        Node parent = null;
-        Node current = root;
-
-        if (current.val == val) {
-            // when the root node of tree is to be deleted
-            // i.e, a node that does not have a parent node
-
-            if (current.left == null && current.right == null) {
-                // when node do not have any child node
-                root = null;
-            } else if (current.left == null) {
-                // when node have only right child node
-                root = current.right;
-            } else if (current.right == null) {
-                // when node have only left child node
-                root = current.left;
-            } else {
-                // when node have 2 child nodes
-                Node temp = current;
-                while (true) {
-                    if (temp.right != null)
-                        temp = temp.right;
-                    else
-                        break;
-                }
-                this.delete(temp.val);
-                root.val = temp.val;
-            }
-        } else {
-            while (current != null) {
-                if (current.val == val) {
-                    // when the node we want to delete is found022
-                    if (current.left == null && current.right == null) {
-                        // when node do not have any child node
-                        if (parent.right == current)
-                            parent.right = null;
-                        else
-                            parent.left = null;
-                    } else if (current.left == null) {
-                        // when node have only right child node
-                        if (parent.right == current)
-                            parent.right = current.left;
-                        else
-                            parent.left = current.left;
-                    } else if (current.right == null) {
-                        // when node have only left child node
-                        if (parent.right == current)
-                            parent.right = current.right;
-                        else
-                            parent.left = current.right;
-                    } else {
-                        // when node have 2 child nodes
-                        Node temp = current;
-                        while (true) {
-                            if (temp.right != null)
-                                temp = temp.right;
-                            else
-                                break;
-                        }
-                        if (parent.right == current) {
-                            this.delete(temp.val);
-                            parent.right.val = temp.val;
-                        } else {
-                            this.delete(temp.val);
-                            parent.left.val = temp.val;
-                        }
-                    }
-                    break;
-                } else if (current.val > val) {
-                    parent = current;
-                    current = current.left;
-                } else {
-                    parent = current;
-                    current = current.right;
-                }
-            }
-        }
-        if (current != null)
-            System.out.println("Node deleted!");
-        else
-            System.out.println("Node with " + val + " do not exist!");
-
+        this.root = delete(this.root, val);
     }
-    
+
+    private Node delete(Node root, int val) throws Exception {
+        if(root == null) return root;
+        else if(val > root.val){
+            root.right = delete(root.right, val);
+        }
+        else if(val < root.val){
+            root.left = delete(root.left, val);
+        }
+        else if(val == root.val){
+           if(root.left == null)
+               return root.right;
+           else if(root.right == null)
+               return  root.left;
+           else {
+               root.val = minVal(root.right);
+
+               root.right = delete(root.right, root.val);
+           }
+        }
+        else {
+            throw new Exception("Value to be deleted does not exist in tree!");
+        }
+        return root;
+    }
+
+    private int minVal(Node root){
+//        int min = root.val;
+        while (root.left != null)
+            root = root.left;
+        return root.val;
+    }
+
     // tree traversal code in Traversal.java file
 }
 
