@@ -68,15 +68,15 @@ class BST {
             root.left = delete(root.left, val);
         }
         else if(val == root.val){
-           if(root.left == null)
-               return root.right;
-           else if(root.right == null)
-               return  root.left;
-           else {
-               root.val = minVal(root.right);
+            if(root.left == null)
+                return root.right;
+            else if(root.right == null)
+                return  root.left;
+            else {
+                root.val = minVal(root.right);
 
-               root.right = delete(root.right, root.val);
-           }
+                root.right = delete(root.right, root.val);
+            }
         }
         else {
             throw new Exception("Value to be deleted does not exist in tree!");
@@ -92,6 +92,13 @@ class BST {
     }
 
     // tree traversal code in Traversal.java file
+    public int height(){
+        return height(root);
+    }
+    private int height(Node root){
+        if(root == null) return -1;
+        return Math.max(height(root.left), height(root.right)) + 1;
+    }
 }
 
 class BinarySearchTree {
@@ -118,7 +125,8 @@ class BinarySearchTree {
                 System.out.println("3. Press 3 to print BST in in order format");
                 System.out.println("4. Press 4 to print BST in post order format");
                 System.out.println("5. Press 5 to delete a value");
-                System.out.println("6. Press 6 to exit");
+                System.out.println("6. Press 6 to print height of tree");
+                System.out.println("7. Press 7 to exit");
 
                 int choice = sc.nextInt();
                 int val;
@@ -144,6 +152,9 @@ class BinarySearchTree {
                         bst.delete(val);
                         break;
                     case 6:
+                        System.out.println("Height of tree is:" + bst.height());
+                        break;
+                    case 7:
                         System.out.println("Press enter to exit!");
                         // sc.nextLine();
                         // sc.nextLine();
